@@ -16,14 +16,23 @@ export function createProject(name) {
 
     const appendToDo = (title, description, dueDate, priority) => {
         let toDoTask = createToDo(title, description, dueDate, priority);
+
+        // Assign a unique Id for each book to prevent issues when books properties are identical
+        const uuid = crypto.randomUUID();
+        toDoTask['id'] = uuid;
+
+        // Put in the todoList
         toDoList.push(toDoTask);
     }
 
-    const removeToDo = (taskTitle) => {
-        for(let i = 0; i < toDoList.length; i++) {
-            if( toDoList[i].getTitle() === taskTitle ){
-                toDoList.splice(i, 1);
-            }
+    // this taskId is the ID that we will get from data-id attribute from the todoTask element in html
+    const removeToDo = (taskId) => {
+        const index = toDoList.findIndex(item => item['id'] === taskId);
+
+        // -1 if not found, if the item is found then:
+        if (index !== -1) {
+            // remove the task
+            toDoList.splice(index, 1);
         }
     }
 

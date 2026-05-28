@@ -1,23 +1,23 @@
 // import "./styles.css";
 
 // Goal: working todo core logic in console
-import { createToDo } from "./createToDo.js"
+import { createProject } from "./createProject.js";
 
-const myToDo = createToDo('Do math HW', 'Need to finish by this week', '2-June-2026', 'high')
+let exampleProject = createProject('DataDriven');
 
-// test
-console.log( myToDo.getTitle() );
-console.log( myToDo.getStatus() );
-console.log( myToDo.getDesc() );
+exampleProject.appendToDo("Do-week-01-cohort-PS", "nothing", "11-May-2027", 'high');
+exampleProject.appendToDo("Do week 02 cohort PS", "bruhhLmao", "12-May-2027", 'low');
+console.log( exampleProject.getProjectName() );
+exampleProject.editProjectName('DDW');
+console.log( exampleProject.getProjectName() );
 
-myToDo.editTitleTo('Dont do math HW');
-console.log( myToDo.getTitle() );
+console.log( exampleProject.getToDoList() );
 
-myToDo.toggleStatus();
-console.log( myToDo.getStatus() );
+exampleProject.getToDoList().forEach( item => {
+    if( item.getTitle()  === 'Do-week-01-cohort-PS' ) {
+        item.editTitleTo('test')
+    }
+});
 
-myToDo.editDescTo('');
-console.log( myToDo.getDesc() );
-
-
+exampleProject.getToDoList().forEach(item => console.log(item.getTitle()));
 

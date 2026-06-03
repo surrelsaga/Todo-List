@@ -3,10 +3,14 @@ import { createToDo } from "./createToDo.js"
 export function createProject(name) {
     let projectName = name;
 
+    // the Project creates an ID for itself
+    let projectID = crypto.randomUUID();
+
     let toDoList = [];
 
-    // METHODS TO GET PROJECT NAME AND TODO LIST
+    // METHODS TO GET PROJECT NAME/ID AND TODO LIST
     const getProjectName = () => projectName;
+    const getProjectID = () => projectID;
     const getToDoList = () => toDoList;
 
     // METHODS TO EDIT PROJECT NAME AND TODO LIST
@@ -36,5 +40,5 @@ export function createProject(name) {
         }
     }
 
-    return { getProjectName, getToDoList, editProjectName, appendToDo, removeToDo };
+    return { getProjectName, getProjectID, getToDoList, editProjectName, appendToDo, removeToDo };
 }

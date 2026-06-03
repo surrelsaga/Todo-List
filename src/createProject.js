@@ -17,7 +17,7 @@ export function createProject(name) {
     const appendToDo = (title, description, dueDate, priority) => {
         let toDoTask = createToDo(title, description, dueDate, priority);
 
-        // Assign a unique Id for each book to prevent issues when books properties are identical
+        // Assign a unique Id for each toDo to prevent issues when toDos properties are identical
         const uuid = crypto.randomUUID();
         toDoTask['id'] = uuid;
 

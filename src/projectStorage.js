@@ -3,6 +3,9 @@ export default (function projectStorage() {
     // array to store Project objects
     const projectsList = [];
 
+    // Method to get project list
+    const getProjectList = () => projectsList;
+
     // Methods to add/remove projects in the list
     const addProject = (projectObject) => {
         projectsList.push(projectObject);
@@ -23,5 +26,5 @@ export default (function projectStorage() {
         console.log(`Removed`);
     }
 
-    return { addProject, removeProject }
+    return { getProjectList, addProject, removeProject }
 })();

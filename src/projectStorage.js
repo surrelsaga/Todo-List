@@ -23,7 +23,5 @@ export default (function projectStorage() {
         console.log(`Removed`);
     }
 
-    const getProjectList = () => projectsList;
-
-    return { addProject, removeProject, getProjectList }
+    return { addProject, removeProject }
 })();

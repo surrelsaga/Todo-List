@@ -6,6 +6,8 @@ export default (function projectStorage() {
     // Methods to add/remove projects in the list
     const addProject = (projectObject) => {
         projectsList.push(projectObject);
+
+        console.log(`Added ${projectObject.getProjectName()}`);
     }
 
     const removeProject = (projectID) => {
@@ -17,7 +19,11 @@ export default (function projectStorage() {
             // remove the project
             projectsList.splice(index, 1);
         }
+
+        console.log(`Removed`);
     }
 
-    return { addProject, removeProject }
+    const getProjectList = () => projectsList;
+
+    return { addProject, removeProject, getProjectList }
 })();

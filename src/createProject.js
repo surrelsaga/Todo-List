@@ -4,7 +4,8 @@ export function createProject(name) {
     let projectName = name;
 
     // the Project creates an ID for itself
-    let projectID = crypto.randomUUID();
+    // let projectID = crypto.randomUUID();
+    let projectID = "placeholder";
 
     let toDoList = [];
 

@@ -25,8 +25,8 @@ export function createProject(name, id) {
         projectName = newName;
     }
 
-    const appendToDo = (title, description, dueDate, priority) => {
-        let toDoTask = createToDo(title, description, dueDate, priority);
+    const appendToDo = (title, description, dueDate, priority, status) => {
+        let toDoTask = createToDo(title, description, dueDate, priority, status);
 
         // Put in the todoList
         toDoList.push(toDoTask);
@@ -44,12 +44,12 @@ export function createProject(name, id) {
     }
 
     // method to rebuild toDo object from raw Data from local Storage
-    const loadToDo = (title, description, dueDate, priority, id) => {
-        let toDoTask = createToDo(title, description, dueDate, priority, id);
+    const loadToDo = (title, description, dueDate, priority, status, id) => {
+        let toDoTask = createToDo(title, description, dueDate, priority, status, id);
 
         // Put in the todoList
         toDoList.push(toDoTask);
     }
 
-    return { getProjectName, getProjectID, getToDoList, editProjectName, appendToDo, removeToDo };
+    return { getProjectName, getProjectID, getToDoList, editProjectName, appendToDo, removeToDo, loadToDo };
 }

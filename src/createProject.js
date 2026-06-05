@@ -1,10 +1,17 @@
 import { createToDo } from "./createToDo.js"
 
-export function createProject(name) {
+export function createProject(name, id) {
     let projectName = name;
+    let projectID
 
-    // the Project creates an ID for itself
-    let projectID = crypto.randomUUID();
+    // In the case where entry modules call the function to rebuild objects from rawData
+    // the project Object will already have an ID
+    if (id === undefined) {
+        // the Project creates an ID for itself
+        projectID = crypto.randomUUID();
+    } else {
+        projectID = id;
+    }
 
     let toDoList = [];
 

@@ -14,7 +14,7 @@ export default (function storageProcessor() {
             project.getToDoList().forEach(toDo => {
                 todoObjectsList.push(
                     {
-                        id: toDo['id'],
+                        id: toDo.getID(),
                         title: toDo.getTitle(),
                         desc: toDo.getDesc(),
                         dueDate: toDo.getDueDate(),

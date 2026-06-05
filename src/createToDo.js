@@ -7,6 +7,9 @@ export function createToDo(title, description, dueDate, priority) {
     // By default, it's supposed to be a toDo task so it should be not done yet
     let taskStatus = false;
 
+    // Assign a unique Id for each toDo to prevent issues when toDos properties are identical
+    const taskID = crypto.randomUUID();
+
     // METHODS TO GET THE PROPERTIES
     const getTitle = () => taskTitle;
     const getDesc = () => taskDesc;
@@ -15,6 +18,7 @@ export function createToDo(title, description, dueDate, priority) {
     const getStatus = () => {
         return (taskStatus === true) ? 'Done' : 'Not Done';
     }
+    const getID = () => taskID;
 
     // Since a ToDo always have the above properties, we never need to remove them (they can be empty)
     // METHODS TO EDIT THE PROPERTIES
@@ -34,5 +38,5 @@ export function createToDo(title, description, dueDate, priority) {
         taskStatus = !taskStatus;
     }
 
-    return { getTitle, getDesc, getDueDate, getPriority, getStatus, editTitleTo, editDescTo, editDueDateTo, editPriorityTo, toggleStatus };
+    return { getTitle, getDesc, getDueDate, getPriority, getStatus, getID, editTitleTo, editDescTo, editDueDateTo, editPriorityTo, toggleStatus };
 }

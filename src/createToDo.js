@@ -1,4 +1,4 @@
-export function createToDo(title, description, dueDate, priority) {
+export function createToDo(title, description, dueDate, priority, id) {
     let taskTitle = title;
     let taskDesc = description;
     let taskDueDate = dueDate;
@@ -7,8 +7,16 @@ export function createToDo(title, description, dueDate, priority) {
     // By default, it's supposed to be a toDo task so it should be not done yet
     let taskStatus = false;
 
-    // Assign a unique Id for each toDo to prevent issues when toDos properties are identical
-    const taskID = crypto.randomUUID();
+    const taskID;
+
+    // In the case where entry modules call the function to rebuild objects from rawData
+    // the toDo Object will already have an ID
+    if (id == undefined) {
+        // Assign a unique Id for each toDo to prevent issues when toDos properties are identical
+        taskID = crypto.randomUUID();
+    } else {
+        taskID = id;
+    }
 
     // METHODS TO GET THE PROPERTIES
     const getTitle = () => taskTitle;

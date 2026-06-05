@@ -34,7 +34,7 @@ export function createProject(name, id) {
 
     // this taskId is the ID that we will get from data-id attribute from the todoTask element in html
     const removeToDo = (taskId) => {
-        const index = toDoList.findIndex(item => item['id'] === taskId);
+        const index = toDoList.findIndex(item => item.getID() === taskId);
 
         // -1 if not found, if the item is found then:
         if (index !== -1) {

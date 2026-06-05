@@ -15,7 +15,7 @@ export function createToDo(title, description, dueDate, priority, status, id) {
         taskStatus = status;
     }
 
-    const taskID;
+    let taskID;
 
     // In the case where entry modules call the function to rebuild objects from rawData
     // the toDo Object will already have an ID

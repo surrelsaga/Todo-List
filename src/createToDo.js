@@ -1,11 +1,19 @@
-export function createToDo(title, description, dueDate, priority, id) {
+export function createToDo(title, description, dueDate, priority, status, id) {
     let taskTitle = title;
     let taskDesc = description;
     let taskDueDate = dueDate;
     let taskPriority = priority;
 
-    // By default, it's supposed to be a toDo task so it should be not done yet
-    let taskStatus = false;
+    // to track if the task is done or not
+    let taskStatus;
+
+    // If it is about rebuilding an existing toDoTask, we need to know the status
+    if (status == undefined) {
+        // this means this is a new todo so it should be not done
+        taskStatus = false;
+    } else {
+        taskStatus = status;
+    }
 
     const taskID;
 
@@ -24,7 +32,7 @@ export function createToDo(title, description, dueDate, priority, id) {
     const getDueDate = () => taskDueDate;
     const getPriority = () => taskPriority;
     const getStatus = () => {
-        return (taskStatus === true) ? 'Done' : 'Not Done';
+        return taskStatus;
     }
     const getID = () => taskID;
 

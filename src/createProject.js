@@ -25,8 +25,8 @@ export function createProject(name, id) {
         projectName = newName;
     }
 
-    const appendToDo = (title, description, dueDate, priority, status) => {
-        let toDoTask = createToDo(title, description, dueDate, priority, status);
+    const appendToDo = (title, description, dueDate, priority) => {
+        let toDoTask = createToDo(title, description, dueDate, priority);
 
         // Put in the todoList
         toDoList.push(toDoTask);
@@ -44,6 +44,8 @@ export function createProject(name, id) {
     }
 
     // method to rebuild toDo object from raw Data from local Storage
+    // we only need to know about a todo status when we load from storage
+    // all the new todo by default, status = false (not done)
     const loadToDo = (title, description, dueDate, priority, status, id) => {
         let toDoTask = createToDo(title, description, dueDate, priority, status, id);
 

@@ -66,4 +66,6 @@ export default (function storageProcessor() {
             return [];
         }
     }
+
+    return { saveToLocalStorage, loadFromLocalStorage };
 })();

@@ -1,9 +1,241 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Todo List</title>
-  </head>
-  <body>
-    <div id="content"></div>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Todo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STATIC: TITLE BAR
+       Never changes. Just decorative window controls + app name.
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="titlebar">
+    <div class="titlebar-controls">
+      <div class="titlebar-dot red"></div>
+      <div class="titlebar-dot yellow"></div>
+      <div class="titlebar-dot green"></div>
+    </div>
+    <div class="titlebar-name">PIXEL TODO</div>
+    <div class="titlebar-version">v0.1.0</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       APP LAYOUT: Two-panel grid (explorer | main)
+       The grid itself is static. Contents of both panels are dynamic.
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="app">
+
+    <!-- ─────────────────────────────────────────────────────────
+         LEFT PANEL: EXPLORER
+         Static: the panel shell + header toolbar.
+         Dynamic: #explorerBody — your DOM displayer writes here.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="explorer">
+      <div class="explorer-header">
+        <span class="explorer-title">Explorer</span>
+        <!-- This button calls entry module to open the add-project modal -->
+        <button class="btn-icon" id="btnAddProject">+ project</button>
+      </div>
+
+      <!-- YOUR DOM DISPLAYER WRITES INTO THIS ELEMENT.
+           It will contain the list of project-items and their todo-items.
+           See: DYNAMIC TEMPLATES section at the bottom of this file. -->
+      <div class="explorer-body" id="explorerBody"></div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────────────
+         RIGHT PANEL: MAIN
+         Static: the panel shell + header row containers.
+         Dynamic: #breadcrumb, #mainActions, #mainBody.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="main">
+      <div class="main-header">
+        <!-- YOUR DOM DISPLAYER UPDATES THIS with current path.
+             e.g. "Personal / Gym"  or just "Personal" -->
+        <div class="main-breadcrumb" id="breadcrumb">
+          <span>pixel-todo</span>
+        </div>
+
+        <!-- YOUR DOM DISPLAYER INJECTS CONTEXTUAL BUTTONS HERE.
+             e.g. "+ task" when a project is selected,
+                  "[ delete task ]" when a todo is selected. -->
+        <div id="mainActions"></div>
+      </div>
+
+      <!-- YOUR DOM DISPLAYER WRITES INTO THIS ELEMENT.
+           It will contain one of three states:
+           1. Empty state (nothing selected)
+           2. Project editor (project selected)
+           3. Todo property editor (todo selected)
+           See: DYNAMIC TEMPLATES section below. -->
+      <div class="main-body" id="mainBody"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STATIC: STATUS BAR
+       The bar itself is static.
+       Dynamic: #statusText, #projectCount, #todoCount.
+  ════════════════════════════════════════════════════════════════ -->
+  <div class="statusbar">
+    <div class="statusbar-item">
+      <div class="statusbar-dot"></div>
+      <!-- YOUR ENTRY MODULE UPDATES THIS with operation feedback.
+           e.g. "project saved", "task deleted", "ready" -->
+      <span id="statusText">ready</span>
+    </div>
+    <div class="statusbar-item" style="margin-left:auto;">
+      <!-- YOUR DOM DISPLAYER UPDATES THESE COUNTS. -->
+      <span id="projectCount">0 projects</span>
+    </div>
+    <div class="statusbar-item">
+      <span id="todoCount">0 tasks</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STATIC: MODALS (shells only — inputs are static)
+       The modal overlay + form fields are static HTML.
+       Your entry module opens/closes them and reads their values.
+  ════════════════════════════════════════════════════════════════ -->
+
+  <!-- Add Project Modal -->
+  <div class="modal-overlay" id="addProjectModal">
+    <div class="modal">
+      <div class="modal-title">// new project</div>
+      <label class="prop-label">Project Name</label>
+      <input type="text" class="prop-input" id="newProjectName" placeholder="e.g. Personal" style="width:100%;" />
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancelProject">[ cancel ]</button>
+        <button class="btn-confirm" id="btnConfirmProject">[ create ]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Todo Modal -->
+  <div class="modal-overlay" id="addTodoModal">
+    <div class="modal">
+      <div class="modal-title">// new task</div>
+      <label class="prop-label">Task Title</label>
+      <input type="text" class="prop-input" id="newTodoTitle" placeholder="e.g. Buy groceries" style="width:100%;" />
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btnCancelTodo">[ cancel ]</button>
+        <button class="btn-confirm" id="btnConfirmTodo">[ create ]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DYNAMIC TEMPLATES — READ THIS CAREFULLY
+       ═══════════════════════════════════════════════════════════
+       The HTML below is NOT rendered on the page.
+       It documents the exact HTML structure your DOM displayer
+       must programmatically build using createElement or innerHTML.
+
+       Your DOM displayer is responsible for creating these
+       structures and injecting them into the correct containers.
+  ════════════════════════════════════════════════════════════════
+
+  ── TEMPLATE 1: PROJECT ITEM (inject into #explorerBody) ────────
+
+  <div class="project-item">
+    <div class="project-header" data-project-id="PROJECT_ID">
+      <div class="project-header-left">
+        <span class="chevron open">&#9658;</span>
+        <span class="project-name">PROJECT_NAME</span>
+        <span class="project-count">TODO_COUNT</span>
+      </div>
+      <div class="project-actions">
+        <button class="action-btn" data-action="add-todo" data-project-id="PROJECT_ID">+</button>
+        <button class="action-btn danger" data-action="delete-project" data-project-id="PROJECT_ID">x</button>
+      </div>
+    </div>
+    <div class="todo-list open">
+      ... todo items go here (see TEMPLATE 2) ...
+    </div>
+    <div class="explorer-divider"></div>
+  </div>
+
+  ── TEMPLATE 2: TODO ITEM (inject into .todo-list) ───────────────
+
+  <div class="todo-item" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">
+    <div class="todo-checkbox [done]">&#10003;</div>
+    <span class="todo-title [done]">TASK_TITLE</span>
+    <span class="priority-dot [high|medium|low]"></span>
+  </div>
+
+  ── TEMPLATE 3: EMPTY STATE (inject into #mainBody) ──────────────
+
+  <div class="empty-state">
+    <div class="empty-state-box">
+      <div class="empty-state-title">PIXEL TODO</div>
+      <div class="empty-state-sub">
+        Select a project or task<br>from the explorer panel.<br><br>
+        <span style="color:var(--text-muted);">[ + project ] to get started</span>
+      </div>
+    </div>
+  </div>
+
+  ── TEMPLATE 4: PROJECT EDITOR (inject into #mainBody) ───────────
+
+  <div class="project-editor">
+    <div class="project-editor-title">// PROJECT_NAME</div>
+    <div class="prop-section">
+      <label class="prop-label">Project Name</label>
+      <input type="text" class="prop-input" id="editProjectName" value="PROJECT_NAME" style="width:100%;" />
+    </div>
+    <div class="prop-section" style="color:var(--text-muted); font-size:12px; line-height:2;">
+      <span class="prop-label">Stats</span>
+      Total tasks &nbsp;&nbsp;&nbsp;TOTAL<br>
+      Completed &nbsp;&nbsp;DONE<br>
+      Remaining &nbsp;&nbsp;REMAINING
+    </div>
+    <button class="btn-save" data-action="save-project" data-project-id="PROJECT_ID">[ save ]</button>
+  </div>
+
+  ── TEMPLATE 5: TODO PROPERTY EDITOR (inject into #mainBody) ─────
+
+  <div class="prop-editor">
+    <div class="prop-section">
+      <label class="prop-label">Title</label>
+      <input type="text" class="prop-input" id="editTitle" value="TITLE" style="width:100%;" />
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Description</label>
+      <textarea class="prop-input" id="editDesc">DESCRIPTION</textarea>
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Due Date</label>
+      <input type="date" class="prop-input" id="editDueDate" value="DUE_DATE" style="width:180px; color-scheme:dark;" />
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Priority</label>
+      <div class="priority-options">
+        <label class="priority-option">
+          <input type="radio" name="priority" value="low" [checked]>
+          <span class="radio-box">[&bull; if selected]</span>
+          <span class="priority-label">low</span>
+        </label>
+        ... repeat for medium, high ...
+      </div>
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Status</label>
+      <label class="status-option" data-action="toggle-status" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">
+        <div class="check-box">[&#10003; if done]</div>
+        <span>Completed / Not Done</span>
+      </label>
+    </div>
+    <button class="btn-save" data-action="save-todo" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">[ save ]</button>
+  </div>
+
+  END OF DYNAMIC TEMPLATES
+  ════════════════════════════════════════════════════════════════ -->
+</body>
 </html>

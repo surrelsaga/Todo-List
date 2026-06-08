@@ -1,0 +1,1 @@
+![App Architecture](./architecture.png)

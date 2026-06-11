@@ -59,7 +59,13 @@ btnConfirmProject.addEventListener('click', () => {
 
     // read in the value of the input box first
     // if the input is empty or just contain only whitespaces
-    if ( projectNameInput.value.trim() !== '') return;
+    if ( projectNameInput.value.trim() === '') {
+        // closes the modal
+        displayer.removeAddProjectModal();
+
+        // and then end the event listener
+        return;
+    }
 
     // intialize the project object
     const project = createProject( projectNameInput.value );

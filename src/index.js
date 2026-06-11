@@ -73,11 +73,18 @@ btnConfirmProject.addEventListener('click', () => {
     // display the project item in the explorer body
     displayer.displayProject(project);
 
+    // clear the input box before closing the project modal
+    projectNameInput.value = '';
+
     // Then close the project modal
     displayer.removeAddProjectModal();
 });
 
 btnCancelProject.addEventListener('click', () => {
+    // clear the input box before closing the project modal
+    projectNameInput.value = '';
+
+    // close the project modal
     displayer.removeAddProjectModal();
 });
 

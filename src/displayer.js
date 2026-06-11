@@ -27,7 +27,7 @@ export default (function displayer() {
         const projectID = project.getProjectID();
         const numberOfToDos = project.getToDoList().length;
 
-        explorereBody.innerHTML += `
+        explorereBody.insertAdjacentHTML('beforeend', `
         <div class="project-item">
             <div class="project-header" data-project-id=${projectID}>
             <div class="project-header-left">
@@ -41,11 +41,10 @@ export default (function displayer() {
             </div>
             </div>
             <div class="todo-list open">
-            ... todo items go here (see TEMPLATE 2) ...
             </div>
             <div class="explorer-divider"></div>
         </div>
-        `;
+        `);
     }
 
     return { showAddProjectModal, removeAddProjectModal, displayProject };

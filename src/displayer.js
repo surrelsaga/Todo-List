@@ -27,7 +27,7 @@ export default (function displayer() {
         const projectID = project.getProjectID();
         const numberOfToDos = project.getToDoList().length;
 
-        explorereBody.innerHTML = `
+        explorereBody.innerHTML += `
         <div class="project-item">
             <div class="project-header" data-project-id=${projectID}>
             <div class="project-header-left">

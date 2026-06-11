@@ -41,10 +41,7 @@ rawData.forEach(project => {
 // // Save to localStorage
 // storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
-
-
-// test displaying project modal
-displayer.init();
+// Test the create button of project modal
 
 
 

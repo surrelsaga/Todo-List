@@ -67,8 +67,8 @@ btnConfirmProject.addEventListener('click', () => {
         return;
     }
 
-    // intialize the project object
-    const project = createProject( projectNameInput.value );
+    // intialize the project object (whitespaces will be trimmed off)
+    const project = createProject( projectNameInput.value.trim() );
 
     // display the project item in the explorer body
     displayer.displayProject(project);

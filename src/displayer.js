@@ -1,11 +1,6 @@
 export default (function displayer() {
-
-    const btnAddProject = document.querySelector('#btnAddProject');
-
-    // Target all DOM elements of the project modal
+    // target the project modal
     const projectModal = document.querySelector('#addProjectModal');
-    const btnConfirmProject = document.querySelector('#btnConfirmProject');
-    const btnCancelProject = document.querySelector('#btnCancelProject');
 
     // Target explorer body
     const explorereBody = document.querySelector('#explorerBody');

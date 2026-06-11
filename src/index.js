@@ -41,7 +41,38 @@ rawData.forEach(project => {
 // // Save to localStorage
 // storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
-// Test the create button of project modal
+// TEST INITIALIZING AND DISPLAYING A PROJECT THROUGH THE PROJECT MODAL
+const btnAddProject = document.querySelector('#btnAddProject');
 
+// Target all DOM elements of the project modal
+const btnConfirmProject = document.querySelector('#btnConfirmProject');
+const btnCancelProject = document.querySelector('#btnCancelProject');
+
+
+btnAddProject.addEventListener('click', () => {
+    //Show the project modal
+    displayer.showAddProjectModal()
+});
+
+btnConfirmProject.addEventListener('click', () => {
+    const projectNameInput = document.querySelector('#newProjectName');
+
+    // read in the value of the input box first
+    // if the input is empty or just contain only whitespaces
+    if ( projectNameInput.value.trim() !== '') return;
+
+    // intialize the project object
+    const project = createProject( projectNameInput.value );
+
+    // display the project item in the explorer body
+    displayer.displayProject(project);
+
+    // Then close the project modal
+    displayer.removeAddProjectModal();
+});
+
+btnCancelProject.addEventListener('click', () => {
+    displayer.removeAddProjectModal();
+});
 
 

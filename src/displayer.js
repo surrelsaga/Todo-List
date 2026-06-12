@@ -35,7 +35,7 @@ export default (function displayer() {
                 <button class="action-btn danger" data-action="delete-project" data-project-id=${projectID}>x</button>
             </div>
             </div>
-            <div class="todo-list open">
+            <div class="todo-list">
             </div>
             <div class="explorer-divider"></div>
         </div>

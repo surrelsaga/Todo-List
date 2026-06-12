@@ -88,4 +88,18 @@ btnCancelProject.addEventListener('click', () => {
     displayer.removeAddProjectModal();
 });
 
+const explorerBody = displayer.getExplorerBody();
+
+explorerBody.addEventListener('click', (event) => {
+    // target the chevron and the project item
+    const chevron = event.target.closest('.chevron');
+    const projectHeader = event.target.closest('.project-header');
+
+    // if user click chevron
+    if (chevron) {
+        chevron.classList.add('open');
+
+        
+    }
+})
 

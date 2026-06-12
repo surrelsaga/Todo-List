@@ -26,20 +26,21 @@ rawData.forEach(project => {
 // Create some example projects to verify if data can survive in the localStorage
 
 // // init one project
-// const cleanHouse = createProject('Clean House');
-// cleanHouse.appendToDo('mop the floor', 'nothing', '6-Jun-2026', 'high');
-// cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '7-Jun-2029', 'low');
+const cleanHouse = createProject('Clean House');
+cleanHouse.appendToDo('mop the floor', 'nothing', '6-Jun-2026', 'high');
+cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '7-Jun-2029', 'low');
 
 // // init another one
 // const learnDDW = createProject('Learn DDW');
 // learnDDW.appendToDo('do HW PS', 'before monday', '10-Jun-2026', 'high');
 
 // // Add to projectStorage
-// projectStorage.addProject(cleanHouse);
+projectStorage.addProject(cleanHouse);
+displayer.displayProject(cleanHouse);
 // projectStorage.addProject(learnDDW);
 
 // // Save to localStorage
-// storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
 // TEST INITIALIZING AND DISPLAYING A PROJECT THROUGH THE PROJECT MODAL
 const btnAddProject = document.querySelector('#btnAddProject');
@@ -87,9 +88,6 @@ btnConfirmProject.addEventListener('click', () => {
 });
 
 btnCancelProject.addEventListener('click', () => {
-    // clear the input box before closing the project modal
-    projectNameInput.value = '';
-
     // close the project modal
     displayer.removeAddProjectModal();
 });
@@ -106,8 +104,13 @@ explorerBody.addEventListener('click', (event) => {
         // open the chevron and the todoList
         chevron.classList.add('open');
 
+        // Search the todo list of the project
+        const projectID = projectHeader.getAttribute('data-project-id');
+        const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
+        const toDoList = project.getToDoList();
 
-
+        // display the todo
+        displayer.displayToDo(projectID, toDoList);
     }
 })
 

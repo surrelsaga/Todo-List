@@ -73,6 +73,12 @@ btnConfirmProject.addEventListener('click', () => {
     // display the project item in the explorer body
     displayer.displayProject(project);
 
+    // add to projectStorage
+    projectStorage.addProject(project);
+
+    // save to localStorage
+    storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+
     // clear the input box before closing the project modal
     projectNameInput.value = '';
 
@@ -97,9 +103,11 @@ explorerBody.addEventListener('click', (event) => {
 
     // if user click chevron
     if (chevron) {
+        // open the chevron and the todoList
         chevron.classList.add('open');
 
-        
+
+
     }
 })
 

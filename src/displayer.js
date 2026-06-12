@@ -54,6 +54,8 @@ export default (function displayer() {
                                 .closest('.project-item')
                                 .querySelector('.todo-list');
 
+        todoDOM.classList.add('open');
+
         // receive todoList from entry module
         // format: [todoObject01, todoObject02, ...]
         todoList.forEach(todo => {

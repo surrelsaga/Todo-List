@@ -27,15 +27,15 @@ export default (function displayer() {
 
         explorereBody.insertAdjacentHTML('beforeend', `
         <div class="project-item">
-            <div class="project-header" data-project-id=${projectID}>
+            <div class="project-header" data-project-id="${projectID}">
             <div class="project-header-left">
                 <span class="chevron">&#9658;</span>
                 <span class="project-name">${projectName}</span>
                 <span class="project-count">${numberOfToDos}</span>
             </div>
             <div class="project-actions">
-                <button class="action-btn" data-action="add-todo" data-project-id=${projectID}>+</button>
-                <button class="action-btn danger" data-action="delete-project" data-project-id=${projectID}>x</button>
+                <button class="action-btn" data-action="add-todo" data-project-id="${projectID}">+</button>
+                <button class="action-btn danger" data-action="delete-project" data-project-id="${projectID}">x</button>
             </div>
             </div>
             <div class="todo-list">
@@ -50,7 +50,7 @@ export default (function displayer() {
     // 2. ToDo list => to know how many of todos and what information to add
     const displayToDo = (projectID, todoList) => {
         // look for the header with correct ID, walks up to the parent element and find inside the parent element the todo list
-        const todoDOM = document.querySelector(`.project-header[data-project-id=${projectID}]`)
+        const todoDOM = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
                                 .closest('.project-item')
                                 .querySelector('.todo-list');
 
@@ -66,7 +66,7 @@ export default (function displayer() {
 
             if (status === false) {
                 todoDOM.insertAdjacentHTML('beforeend', `
-                <div class="todo-item" data-todo-id=${id} data-project-id=${projectID}>
+                <div class="todo-item" data-todo-id="${id}" data-project-id="${projectID}">
                     <div class="todo-checkbox">&#10003;</div>
                     <span class="todo-title">${name}</span>
                     <span class="priority-dot" class=${priority}></span>

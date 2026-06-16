@@ -1,6 +1,7 @@
 export default (function displayer() {
-    // target the project modal
+    // target the project/todo modal
     const projectModal = document.querySelector('#addProjectModal');
+    const todoModal = document.querySelector('#addTodoModal');
 
     // Target explorer body
     const explorereBody = document.querySelector('#explorerBody');
@@ -14,6 +15,16 @@ export default (function displayer() {
     //Close the project modal
     const removeAddProjectModal = () => {
         projectModal.classList.remove('open');
+    }
+
+    //Show the toDo modal
+    const showAddToDoModal = () => {
+        todoModal.classList.add('open');
+    }
+
+    //Close the toDo modal
+    const removeAddToDoModal = () => {
+        todoModal.classList.remove('open');
     }
 
     // Get the explorerBody
@@ -93,5 +104,5 @@ export default (function displayer() {
         todoDOM.innerHTML = '';
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, displayProject, displayToDo, clearToDo };
+    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, displayToDo, clearToDo };
 })();

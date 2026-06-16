@@ -94,19 +94,34 @@ btnCancelProject.addEventListener('click', () => {
 
 const explorerBody = displayer.getExplorerBody();
 
+//target elements in the todo modal when addToDoBtn is clicked (similar to how btnAddProject works)
+const btnConfirmToDo = document.querySelector('#btnConfirmTodo');
+const btnCancelToDo = document.querySelector('#btnCancelTodo');
 
+// Remember which project the "+" was clicked on, so the Confirm button
+// (which lives in the modal, not in a project item) knows where to add the todo.
+let activeProject = null;
+
+// EVENT DELEGATION: one big papa shares listener with his children
 explorerBody.addEventListener('click', (event) => {
     // target the chevron and the project item
     const chevron = event.target.closest('.chevron');
     const projectHeader = event.target.closest('.project-header');
 
+    // target the buttons to (add todo) + (delete project)
+    const addToDoBtn = event.target.closest('[data-action="add-todo"]');
+
+    // if the click landed on empty space (no project header), there is nothing to do
+    if (!projectHeader) return;
+
+    // extract the id of the currently project that the user is on
+    const projectID = projectHeader.getAttribute('data-project-id');
+    // Search the todo list of the project
+    const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
+    const toDoList = project.getToDoList();
+
     // if user click chevron
     if (chevron) {
-        // Search the todo list of the project
-        const projectID = projectHeader.getAttribute('data-project-id');
-        const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
-        const toDoList = project.getToDoList();
-
         // open/close the chevron and the todoList
         if (chevron.classList.contains('open')) {
             // chevron -> in closed state
@@ -120,5 +135,64 @@ explorerBody.addEventListener('click', (event) => {
             displayer.displayToDo(projectID, toDoList);
         }
     }
-})
+
+    // if user clicks add ToDo
+    if (addToDoBtn) {
+        // remember which project we're adding to, then display the toDo modal
+        activeProject = project;
+        displayer.showAddToDoModal();
+    }
+});
+
+// After the toDo modal appears, if user clicks confirm (create)
+// btnConfirmToDo is outside of explorerBody because it is not a child
+// of explorerBody, so it does not share with it the same listener
+btnConfirmToDo.addEventListener('click', () => {
+    // nothing to add to if no project is active
+    if (!activeProject) return;
+
+    // read value input
+    const toDoTitleInput = document.querySelector('#newTodoTitle');
+
+    // if user don't put anything that is not string
+    if (toDoTitleInput.value.trim() === '') {
+        // close the modal
+        displayer.removeAddToDoModal();
+
+        // nothing happens, end the listener
+        return;
+    }
+
+    // create the todo Object
+    // because we only take the todo title, other properties will be defaulted to some values ('').
+    // User can edit later
+    activeProject.appendToDo(toDoTitleInput.value.trim(), '', '', 'medium');
+
+    // save the new todo to localStorage
+    storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+
+    const projectID = activeProject.getProjectID();
+
+    // Only display the new todo if the chevron is open.
+    // If it's collapsed, no need to render — it'll show when the user expands it.
+    const chevron = document.querySelector(`.project-header[data-project-id="${projectID}"] .chevron`);
+    if (chevron && chevron.classList.contains('open')) {
+        // clear the old todo items list first
+        displayer.clearToDo(projectID);
+
+        // rerender all todo items
+        displayer.displayToDo(projectID, activeProject.getToDoList());
+    }
+
+    // clear the input and close the modal
+    toDoTitleInput.value = '';
+    displayer.removeAddToDoModal();
+    activeProject = null;
+});
+
+// if user clicks cancel, just close the modal
+btnCancelToDo.addEventListener('click', () => {
+    displayer.removeAddToDoModal();
+    activeProject = null;
+});
 

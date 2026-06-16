@@ -109,6 +109,9 @@ explorerBody.addEventListener('click', (event) => {
         const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
         const toDoList = project.getToDoList();
 
+        // Before render the todo items, clear the old rendered todo items (chevron got opened and closed many times)
+        displayer.clearToDo(projectID);
+
         // display the todo
         displayer.displayToDo(projectID, toDoList);
     }

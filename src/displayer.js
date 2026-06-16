@@ -84,5 +84,14 @@ export default (function displayer() {
         });
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, displayProject, displayToDo };
+    const clearToDo = (projectID) => {
+        // look for the header with correct ID, walks up to the parent element and find inside the parent element the todo list
+        const todoDOM = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+                                .closest('.project-item')
+                                .querySelector('.todo-list');
+
+        todoDOM.innerHTML = '';
+    }
+
+    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, displayProject, displayToDo, clearToDo };
 })();

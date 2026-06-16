@@ -94,6 +94,7 @@ btnCancelProject.addEventListener('click', () => {
 
 const explorerBody = displayer.getExplorerBody();
 
+
 explorerBody.addEventListener('click', (event) => {
     // target the chevron and the project item
     const chevron = event.target.closest('.chevron');
@@ -101,19 +102,23 @@ explorerBody.addEventListener('click', (event) => {
 
     // if user click chevron
     if (chevron) {
-        // open the chevron and the todoList
-        chevron.classList.add('open');
-
         // Search the todo list of the project
         const projectID = projectHeader.getAttribute('data-project-id');
         const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
         const toDoList = project.getToDoList();
 
-        // Before render the todo items, clear the old rendered todo items (chevron got opened and closed many times)
-        displayer.clearToDo(projectID);
-
-        // display the todo
-        displayer.displayToDo(projectID, toDoList);
+        // open/close the chevron and the todoList
+        if (chevron.classList.contains('open')) {
+            // chevron -> in closed state
+            chevron.classList.remove('open');
+            // clear the todoItems
+            displayer.clearToDo(projectID);
+        } else {
+            // chevron -> in open state
+            chevron.classList.add('open');
+            // display the todos
+            displayer.displayToDo(projectID, toDoList);
+        }
     }
 })
 

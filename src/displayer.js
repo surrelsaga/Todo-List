@@ -33,6 +33,9 @@ export default (function displayer() {
     // Get the explorerBody
     const getExplorerBody = () => explorereBody;
 
+    // Get the mainBody
+    const getMainBody = () => mainBody;
+
     //After confirm project, display the project item inside the explorer body
     const displayProject = (project) => {
         const projectName = project.getProjectName();
@@ -143,5 +146,14 @@ export default (function displayer() {
         `
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor };
+    // update the project title display
+    const updateProjectTitle = (projectID, newName) => {
+        // find the correct project header -> walk up to project item -> find the project name display box
+        const projectNameDisplay = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+                                           .closest('.project-item')
+                                           .querySelector('.project-name');
+        projectNameDisplay.textContent = newName;
+    }
+
+    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle };
 })();

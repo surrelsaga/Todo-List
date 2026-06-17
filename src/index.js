@@ -237,3 +237,42 @@ btnCancelToDo.addEventListener('click', () => {
     activeProject = null;
 });
 
+// THIS IS THE EVENT DELEGATION: the parent element will be the mainbody
+// Save buttons for project/todo editor will receive listeners from this element
+const mainBody = displayer.getMainBody();
+
+mainBody.addEventListener('click', (event) => {
+    // save button of project editor
+    const saveProjectBtn = event.target.closest('[data-action="save-project"]');
+    const projectTitleInput = mainBody.querySelector('#editProjectName').value;
+    
+    // verify the title input
+    if( projectTitleInput.trim() === '' ) {
+        // closes the project editor
+        mainBody.innerHTML = ''
+
+        // stop the listener
+        return;
+    }
+
+    if (saveProjectBtn) {
+        // extract the id of the currently project that the user is on
+        const projectID = saveProjectBtn.getAttribute('data-project-id');
+        // Search the todo list of the project
+        const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
+
+        // update the new name to the project
+        project.editProjectName( projectTitleInput.trim() );
+
+        // save updated project title to localStorage
+        storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+
+        // update the DOM display
+        displayer.updateProjectTitle( projectID, projectTitleInput.trim() );
+
+        // closes the project editor
+        mainBody.innerHTML = ''
+
+        return;
+    }
+});

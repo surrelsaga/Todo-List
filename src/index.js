@@ -107,6 +107,24 @@ explorerBody.addEventListener('click', (event) => {
     // target the chevron and the project item
     const chevron = event.target.closest('.chevron');
     const projectHeader = event.target.closest('.project-header');
+    
+    // target the clicked todo item
+    // altho we have many todo items, but only the one that is clicked, its listener will be triggered
+    const todoItem = event.target.closest('.todo-item');
+
+    // if user clicks a todo item, open its editor and stop here. 
+    // (can not let the listener for projectHeader happens at the same time)
+    // a todo item lives in .todo-list (a sibling of .project-header),
+    // so projectHeader is null on these clicks — handle it before any
+    // projectHeader-dependent code below, and return so we don't also
+    // open the project editor.
+    if (todoItem) {
+        const todoID = todoItem.getAttribute('data-todo-id');
+        const projectID = todoItem.getAttribute('data-project-id');
+
+        displayer.displayTodoEditor();
+        return;
+    }
 
     // if user clicks into empty space inside explorerBody, just do nothing
     if (!projectHeader) return;
@@ -177,6 +195,8 @@ explorerBody.addEventListener('click', (event) => {
         });
 
         displayer.displayProjectEditor(project, numberOfTasksDone, numberOfTasksUnDone);
+
+        return;
     }
 });
 

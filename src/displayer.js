@@ -155,5 +155,54 @@ export default (function displayer() {
         projectNameDisplay.textContent = newName;
     }
 
-    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle };
+    // display todo editor
+    const displayTodoEditor = () => {
+        mainBody.innerHTML = `
+  <div class="prop-editor">
+    <div class="prop-section">
+      <label class="prop-label">Title</label>
+      <input type="text" class="prop-input" id="editTitle" value="TITLE" style="width:100%;" />
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Description</label>
+      <textarea class="prop-input" id="editDesc">DESCRIPTION</textarea>
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Due Date</label>
+      <input type="date" class="prop-input" id="editDueDate" value="DUE_DATE" style="width:180px; color-scheme:dark;" />
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Priority</label>
+      <div class="priority-options">
+        <label class="priority-option">
+          <input type="radio" name="priority" value="low" [checked]>
+          <span class="radio-box">✓</span>
+          <span class="priority-label">low</span>
+        </label>
+        <label class="priority-option">
+          <input type="radio" name="priority" value="medium" [checked]>
+          <span class="radio-box">✓</span>
+          <span class="priority-label">medium</span>
+        </label>
+        <label class="priority-option">
+          <input type="radio" name="priority" value="high" [checked]>
+          <span class="radio-box">✓</span>
+          <span class="priority-label">high</span>
+        </label>
+      </div>
+    </div>
+    <div class="prop-section">
+      <label class="prop-label">Status</label>
+      <label class="status-option" data-action="toggle-status" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">
+        <input type="checkbox" id="editStatus">
+        <span class="check-box">✓</span>
+        <span>Completed</span>
+      </label>
+    </div>
+    <button class="btn-save" data-action="save-todo" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">[ save ]</button>
+  </div>
+        `;
+    }
+
+    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor };
 })();

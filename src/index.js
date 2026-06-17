@@ -108,12 +108,12 @@ explorerBody.addEventListener('click', (event) => {
     const chevron = event.target.closest('.chevron');
     const projectHeader = event.target.closest('.project-header');
 
+    // if user clicks into empty space inside explorerBody, just do nothing
+    if (!projectHeader) return;
+
     // target the buttons to (add todo) + (delete project)
     const addToDoBtn = event.target.closest('[data-action="add-todo"]');
     const deleteProjectBtn = event.target.closest('[data-action="delete-project"]');
-
-    // if the click landed on empty space (no project header), there is nothing to do
-    if (!projectHeader) return;
 
     // extract the id of the currently project that the user is on
     const projectID = projectHeader.getAttribute('data-project-id');
@@ -135,6 +135,11 @@ explorerBody.addEventListener('click', (event) => {
             // display the todos
             displayer.displayToDo(projectID, toDoList);
         }
+
+        // chevron is inside project-header, so clicking chevron also means clicking project header
+        // the only way to differentiate is to exit the listener if the chevron is clicked
+        // then the condition for clicking projectHeader never gets checked, so only todo list is shown
+        return;
     }
 
     // if user clicks add ToDo
@@ -142,6 +147,9 @@ explorerBody.addEventListener('click', (event) => {
         // remember which project we're adding to, then display the toDo modal
         activeProject = project;
         displayer.showAddToDoModal();
+
+        // the listener stops immediately
+        return;
     }
 
     // if user clicks remove Project
@@ -153,6 +161,22 @@ explorerBody.addEventListener('click', (event) => {
 
         // update to localStorage
         storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+
+        // the listener stops immediately
+        return;
+    }
+
+    // if user clicks on the empty space of the project item
+    if (projectHeader) {
+        let numberOfTasksDone = 0;
+        let numberOfTasksUnDone = 0;
+
+        toDoList.forEach(task => {
+            if (task.getStatus() === false) numberOfTasksUnDone += 1;
+            else numberOfTasksDone += 1
+        });
+
+        displayer.displayProjectEditor(project, numberOfTasksDone, numberOfTasksUnDone);
     }
 });
 

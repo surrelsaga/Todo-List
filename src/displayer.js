@@ -6,6 +6,9 @@ export default (function displayer() {
     // Target explorer body
     const explorereBody = document.querySelector('#explorerBody');
 
+    // Target the main body for project/todo editor
+    const mainBody = document.querySelector('#mainBody');
+
 
     //Show the project modal
     const showAddProjectModal = () => {
@@ -120,5 +123,25 @@ export default (function displayer() {
         toDoCount.textContent = count
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject };
+    // display the project editor
+    const displayProjectEditor = (project, numberOfTasksDone, numberOfTasksUnDone) => {
+        mainBody.innerHTML = `
+        <div class="project-editor">
+            <div class="project-editor-title">// PROJECT_NAME</div>
+            <div class="prop-section">
+                <label class="prop-label">Project Name</label>
+                <input type="text" class="prop-input" id="editProjectName" value="${project.getProjectName()}" style="width:100%;" />
+            </div>
+            <div class="prop-section" style="color:var(--text-muted); font-size:12px; line-height:2;">
+            <span class="prop-label">Stats</span>
+                Total tasks &nbsp;&nbsp;&nbsp;${numberOfTasksDone + numberOfTasksUnDone}<br>
+                Completed &nbsp;&nbsp;${numberOfTasksDone}<br>
+                Remaining &nbsp;&nbsp;${numberOfTasksUnDone}
+            </div>
+            <button class="btn-save" data-action="save-project" data-project-id="${project.getProjectID()}">[ save ]</button>
+        </div>
+        `
+    }
+
+    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor };
 })();

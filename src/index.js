@@ -244,18 +244,19 @@ const mainBody = displayer.getMainBody();
 mainBody.addEventListener('click', (event) => {
     // save button of project editor
     const saveProjectBtn = event.target.closest('[data-action="save-project"]');
-    const projectTitleInput = mainBody.querySelector('#editProjectName').value;
-    
-    // verify the title input
-    if( projectTitleInput.trim() === '' ) {
-        // closes the project editor
-        mainBody.innerHTML = ''
-
-        // stop the listener
-        return;
-    }
 
     if (saveProjectBtn) {
+        const projectTitleInput = mainBody.querySelector('#editProjectName').value;
+
+        // verify the title input
+        if( projectTitleInput.trim() === '' ) {
+            // closes the project editor
+            mainBody.innerHTML = ''
+
+            // stop the listener
+            return;
+        }
+
         // extract the id of the currently project that the user is on
         const projectID = saveProjectBtn.getAttribute('data-project-id');
         // Search the todo list of the project

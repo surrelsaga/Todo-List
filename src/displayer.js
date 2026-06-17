@@ -104,5 +104,14 @@ export default (function displayer() {
         todoDOM.innerHTML = '';
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, displayToDo, clearToDo };
+    const updateToDoCountInProject = (projectID, count) => {
+        // look for the projectHeader with the matched ID -> then go up to that project item -> then find the project count of that item
+        const toDoCount = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+                                  .closest('.project-item')
+                                  .querySelector('.project-count');
+    
+        toDoCount.textContent = count
+    }
+
+    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, displayToDo, clearToDo, updateToDoCountInProject };
 })();

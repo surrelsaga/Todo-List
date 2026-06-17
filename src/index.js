@@ -171,6 +171,11 @@ btnConfirmToDo.addEventListener('click', () => {
     // save the new todo to localStorage
     storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
+    //At here, confirm that the input was valid and a new todo was added
+    // the todo count of the project must be incremented
+    let newToDoCount = activeProject.getToDoList().length;
+    displayer.updateToDoCountInProject(activeProject.getProjectID(), newToDoCount);
+
     const projectID = activeProject.getProjectID();
 
     // Only display the new todo if the chevron is open.

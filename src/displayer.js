@@ -56,6 +56,13 @@ export default (function displayer() {
         `);
     }
 
+    const removeDisplayProject = (projectID) => {
+        const projectItemToRemove = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+                                            .closest('.project-item');
+        // remove the project
+        projectItemToRemove.remove();
+    }
+
     // to display todo, the displayer needs to know
     // 1. ID => to detect the exact todo-list to append html code
     // 2. ToDo list => to know how many of todos and what information to add
@@ -113,5 +120,5 @@ export default (function displayer() {
         toDoCount.textContent = count
     }
 
-    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, displayToDo, clearToDo, updateToDoCountInProject };
+    return { getExplorerBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject };
 })();

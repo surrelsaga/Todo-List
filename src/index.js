@@ -110,6 +110,7 @@ explorerBody.addEventListener('click', (event) => {
 
     // target the buttons to (add todo) + (delete project)
     const addToDoBtn = event.target.closest('[data-action="add-todo"]');
+    const deleteProjectBtn = event.target.closest('[data-action="delete-project"]');
 
     // if the click landed on empty space (no project header), there is nothing to do
     if (!projectHeader) return;
@@ -141,6 +142,17 @@ explorerBody.addEventListener('click', (event) => {
         // remember which project we're adding to, then display the toDo modal
         activeProject = project;
         displayer.showAddToDoModal();
+    }
+
+    // if user clicks remove Project
+    if (deleteProjectBtn) {
+        displayer.removeDisplayProject(projectID);
+
+        // remove from project Storage
+        projectStorage.removeProject(projectID)
+
+        // update to localStorage
+        storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
     }
 });
 

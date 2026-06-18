@@ -25,25 +25,27 @@ rawData.forEach(project => {
 
 // redisplay all the projects
 projectStorage.getProjectList().forEach(project => displayer.displayProject(project));
+// display the waiting screen for the main body
+displayer.displayEmptyState();
 
 // Create some example projects to verify if data can survive in the localStorage
 
 // // init one project
-const cleanHouse = createProject('Clean House');
-cleanHouse.appendToDo('mop the floor', 'nothing', '2026-06-06', 'high');
-cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '2029-06-07', 'low');
+// const cleanHouse = createProject('Clean House');
+// cleanHouse.appendToDo('mop the floor', 'nothing', '2026-06-06', 'high');
+// cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '2029-06-07', 'low');
 
 // // init another one
 // const learnDDW = createProject('Learn DDW');
 // learnDDW.appendToDo('do HW PS', 'before monday', '10-Jun-2026', 'high');
 
 // // Add to projectStorage
-projectStorage.addProject(cleanHouse);
-displayer.displayProject(cleanHouse);
+// projectStorage.addProject(cleanHouse);
+// displayer.displayProject(cleanHouse);
 // projectStorage.addProject(learnDDW);
 
 // // Save to localStorage
-storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+// storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
 // TEST INITIALIZING AND DISPLAYING A PROJECT THROUGH THE PROJECT MODAL
 const btnAddProject = document.querySelector('#btnAddProject');
@@ -315,7 +317,7 @@ mainBody.addEventListener('click', (event) => {
         // verify the title input
         if( projectTitleInput.trim() === '' ) {
             // closes the project editor
-            mainBody.innerHTML = ''
+            displayer.displayEmptyState();
 
             // stop the listener
             return;
@@ -336,7 +338,7 @@ mainBody.addEventListener('click', (event) => {
         displayer.updateProjectTitle( projectID, projectTitleInput.trim() );
 
         // closes the project editor
-        mainBody.innerHTML = ''
+        displayer.displayEmptyState();
 
         return;
     }
@@ -379,7 +381,7 @@ mainBody.addEventListener('click', (event) => {
         storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
         // #5: close the todo editor
-        mainBody.innerHTML = '';
+        displayer.displayEmptyState();;
 
         return;
     }

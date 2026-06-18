@@ -230,8 +230,21 @@ export default (function displayer() {
             toDoCheckBox.classList.remove('done');
             toDoNameDisplay.classList.remove('done');
         }
-        
     }
 
-    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor, updateToDoDisplay };
+    const displayEmptyState = () => {
+        mainBody.innerHTML = `
+  <div class="empty-state">
+    <div class="empty-state-box">
+      <div class="empty-state-title">PIXEL TODO</div>
+      <div class="empty-state-sub">
+        Select a project or task<br>from the explorer panel.<br><br>
+        <span style="color:var(--text-muted);">[ + project ] to get started</span>
+      </div>
+    </div>
+  </div>
+        `;
+    }
+
+    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor, updateToDoDisplay, displayEmptyState };
 })();

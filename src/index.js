@@ -275,19 +275,19 @@ mainBody.addEventListener('click', (event) => {
 
     // All elements related to the todo editor
     // what actually get clicks on the checkbox is the input area, not the status-option label
-    const realCheckBox = event.target.closest('#editStatus');
+    const checkBox = event.target.closest('#editStatus');
     // save button of todo editor
     const saveToDoBtn = event.target.closest('[data-action="save-todo"]');
 
-    if (realCheckBox) {
-        const statusToggle = realCheckBox.closest('.status-option');
+    if (checkBox) {
+        const statusToggle = checkBox.closest('.status-option');
         const checkBoxSymbol = statusToggle.querySelector('.check-box');
         const statusText = statusToggle.querySelector('#status-text');
 
-        if (realCheckBox.checked) {
+        if (checkBox.checked) {
             checkBoxSymbol.textContent = '✓';
             statusText.textContent = 'Completed';
-        } else if (!realCheckBox.checked) {
+        } else if (!checkBox.checked) {
             checkBoxSymbol.textContent = '';
             statusText.textContent = 'Undone';
         }
@@ -342,7 +342,8 @@ mainBody.addEventListener('click', (event) => {
         // duedate return value will be in the 'yyyy-mm-dd' format
         const newDueDate = mainBody.querySelector('#editDueDate').value;
         const newPriority = mainBody.querySelector('input[name="priority"]:checked').value;
-        const newStatus = mainBody.querySelector('#editStatus').value;
+        // this checked returns the status of the checkbox (true if checkbox is checked and otherwise)
+        const newStatus = mainBody.querySelector('#editStatus').checked;
 
         // #2: update the todo
         todo.editTitleTo(newTitle);
@@ -358,7 +359,7 @@ mainBody.addEventListener('click', (event) => {
         storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
 
         // #4: redisplay the todo item title
-        displayer.updateToDoTitle(projectID, newTitle)
+        displayer.updateToDoTitle(projectID, todoID, newTitle);
 
         // #5: close the todo editor
         mainBody.innerHTML = '';

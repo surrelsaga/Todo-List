@@ -175,17 +175,17 @@ export default (function displayer() {
       <label class="prop-label">Priority</label>
       <div class="priority-options">
         <label class="priority-option">
-          <input type="radio" name="priority" value="low" [checked]>
+          <input type="radio" name="priority" value="low" ${(toDo.getPriority() === 'low') ? 'checked' : ''}>
           <span class="radio-box">✓</span>
           <span class="priority-label">low</span>
         </label>
         <label class="priority-option">
-          <input type="radio" name="priority" value="medium" [checked]>
+          <input type="radio" name="priority" value="medium" ${(toDo.getPriority() === 'medium') ? 'checked' : ''}>
           <span class="radio-box">✓</span>
           <span class="priority-label">medium</span>
         </label>
         <label class="priority-option">
-          <input type="radio" name="priority" value="high" [checked]>
+          <input type="radio" name="priority" value="high" ${(toDo.getPriority() === 'high') ? 'checked' : ''}>
           <span class="radio-box">✓</span>
           <span class="priority-label">high</span>
         </label>
@@ -195,8 +195,8 @@ export default (function displayer() {
       <label class="prop-label">Status</label>
       <label class="status-option" data-action="toggle-status" data-todo-id="${toDo.getID()}" data-project-id="${project.getProjectID()}">
         <input type="checkbox" id="editStatus">
-        <span class="check-box">✓</span>
-        <span id="status-text">Completed</span>
+        <span class="check-box">${toDo.getStatus() === true ? '✓' : ''}</span>
+        <span id="status-text">${toDo.getStatus() === true ? 'Completed' : 'Undone'}</span>
       </label>
     </div>
     <button class="btn-save" data-action="save-todo" data-todo-id="${toDo.getID()}" data-project-id="${project.getProjectID()}">[ save ]</button>
@@ -205,11 +205,12 @@ export default (function displayer() {
     }
 
     // update the project title display
-    const updateToDoTitle = (projectID, newName) => {
+    const updateToDoTitle = (projectID, todoID, newName) => {
         // find the correct project header -> walk up to project item -> find the project name display box
         const toDoNameDisplay = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
                                            .closest('.project-item')
                                            .querySelector('.todo-list')
+                                           .querySelector(`.todo-item[data-todo-id="${todoID}"`)
                                            .querySelector('.todo-title');
         toDoNameDisplay.textContent = newName;
     }

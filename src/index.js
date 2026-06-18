@@ -27,8 +27,8 @@ rawData.forEach(project => {
 
 // // init one project
 const cleanHouse = createProject('Clean House');
-cleanHouse.appendToDo('mop the floor', 'nothing', '6-Jun-2026', 'high');
-cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '7-Jun-2029', 'low');
+cleanHouse.appendToDo('mop the floor', 'nothing', '2026-06-06', 'high');
+cleanHouse.appendToDo('tidy up the bed', 'before I sleep', '2029-06-07', 'low');
 
 // // init another one
 // const learnDDW = createProject('Learn DDW');
@@ -119,10 +119,18 @@ explorerBody.addEventListener('click', (event) => {
     // projectHeader-dependent code below, and return so we don't also
     // open the project editor.
     if (todoItem) {
+        // retrieve project and todo ids
         const todoID = todoItem.getAttribute('data-todo-id');
         const projectID = todoItem.getAttribute('data-project-id');
 
-        displayer.displayTodoEditor();
+        // look for that project and the targeted todo
+        const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
+        const todo = project.getToDoList().find(toDo => toDo.getID() === todoID);
+
+        // display the todoEditor
+        displayer.displayTodoEditor(project, todo);
+
+        // end the listener
         return;
     }
 
@@ -268,6 +276,8 @@ mainBody.addEventListener('click', (event) => {
     // All elements related to the todo editor
     // what actually get clicks on the checkbox is the input area, not the status-option label
     const realCheckBox = event.target.closest('#editStatus');
+    // save button of todo editor
+    const saveToDoBtn = event.target.closest('[data-action="save-todo"]');
 
     if (realCheckBox) {
         const statusToggle = realCheckBox.closest('.status-option');
@@ -312,6 +322,46 @@ mainBody.addEventListener('click', (event) => {
 
         // closes the project editor
         mainBody.innerHTML = ''
+
+        return;
+    }
+
+    // This part belongs to the todo editor
+    if (saveToDoBtn) {
+        // retrieve project and todo ids
+        const todoID = saveToDoBtn.getAttribute('data-todo-id');
+        const projectID = saveToDoBtn.getAttribute('data-project-id');
+        // look for that project and the targeted todo
+        const project = projectStorage.getProjectList().find(project => project.getProjectID() === projectID);
+        const todo = project.getToDoList().find(toDo => toDo.getID() === todoID);
+
+        // when the user clicks save
+        // #1: retrieve all the values of inputs
+        const newTitle = mainBody.querySelector('#editTitle').value;
+        const newDesc = mainBody.querySelector('#editDesc').value;
+        // duedate return value will be in the 'yyyy-mm-dd' format
+        const newDueDate = mainBody.querySelector('#editDueDate').value;
+        const newPriority = mainBody.querySelector('input[name="priority"]:checked').value;
+        const newStatus = mainBody.querySelector('#editStatus').value;
+
+        // #2: update the todo
+        todo.editTitleTo(newTitle);
+        todo.editDescTo(newDesc);
+        todo.editDueDateTo(newDueDate);
+        todo.editPriorityTo(newPriority);
+        todo.editStatusTo(newStatus);
+
+        // #3: update the todo 
+        // meaning updating the project 
+        // meaning updating the projectStorage alr
+        // just need to save to localStorage
+        storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
+
+        // #4: redisplay the todo item title
+        displayer.updateToDoTitle(projectID, newTitle)
+
+        // #5: close the todo editor
+        mainBody.innerHTML = '';
 
         return;
     }

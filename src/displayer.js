@@ -156,20 +156,20 @@ export default (function displayer() {
     }
 
     // display todo editor
-    const displayTodoEditor = () => {
+    const displayTodoEditor = (project, toDo) => {
         mainBody.innerHTML = `
   <div class="prop-editor">
     <div class="prop-section">
       <label class="prop-label">Title</label>
-      <input type="text" class="prop-input" id="editTitle" value="TITLE" style="width:100%;" />
+      <input type="text" class="prop-input" id="editTitle" value="${toDo.getTitle()}" style="width:100%;" />
     </div>
     <div class="prop-section">
       <label class="prop-label">Description</label>
-      <textarea class="prop-input" id="editDesc">DESCRIPTION</textarea>
+      <textarea class="prop-input" id="editDesc">${toDo.getDesc()}</textarea>
     </div>
     <div class="prop-section">
       <label class="prop-label">Due Date</label>
-      <input type="date" class="prop-input" id="editDueDate" value="DUE_DATE" style="width:180px; color-scheme:dark;" />
+      <input type="date" class="prop-input" id="editDueDate" value="${toDo.getDueDate()}"style="width:180px; color-scheme:dark;" />
     </div>
     <div class="prop-section">
       <label class="prop-label">Priority</label>
@@ -193,16 +193,26 @@ export default (function displayer() {
     </div>
     <div class="prop-section">
       <label class="prop-label">Status</label>
-      <label class="status-option" data-action="toggle-status" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">
+      <label class="status-option" data-action="toggle-status" data-todo-id="${toDo.getID()}" data-project-id="${project.getProjectID()}">
         <input type="checkbox" id="editStatus">
         <span class="check-box">✓</span>
         <span id="status-text">Completed</span>
       </label>
     </div>
-    <button class="btn-save" data-action="save-todo" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">[ save ]</button>
+    <button class="btn-save" data-action="save-todo" data-todo-id="${toDo.getID()}" data-project-id="${project.getProjectID()}">[ save ]</button>
   </div>
         `;
     }
 
-    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor };
+    // update the project title display
+    const updateToDoTitle = (projectID, newName) => {
+        // find the correct project header -> walk up to project item -> find the project name display box
+        const toDoNameDisplay = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+                                           .closest('.project-item')
+                                           .querySelector('.todo-list')
+                                           .querySelector('.todo-title');
+        toDoNameDisplay.textContent = newName;
+    }
+
+    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor, updateToDoTitle };
 })();

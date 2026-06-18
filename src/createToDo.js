@@ -50,9 +50,10 @@ export function createToDo(title, description, dueDate, priority, status, id) {
         // there will be ways to restrict UI to only toggle between these values in the UI
         taskPriority = newLevel;
     }
-    const toggleStatus = () => {
-        taskStatus = !taskStatus;
+    const editStatusTo = (newStatus) => {
+        // only receives either true or false
+        taskStatus = newStatus;
     }
 
-    return { getTitle, getDesc, getDueDate, getPriority, getStatus, getID, editTitleTo, editDescTo, editDueDateTo, editPriorityTo, toggleStatus };
+    return { getTitle, getDesc, getDueDate, getPriority, getStatus, getID, editTitleTo, editDescTo, editDueDateTo, editPriorityTo, editStatusTo };
 }

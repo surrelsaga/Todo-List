@@ -265,6 +265,25 @@ mainBody.addEventListener('click', (event) => {
     // save button of project editor
     const saveProjectBtn = event.target.closest('[data-action="save-project"]');
 
+    // All elements related to the todo editor
+    // what actually get clicks on the checkbox is the input area, not the status-option label
+    const realCheckBox = event.target.closest('#editStatus');
+
+    if (realCheckBox) {
+        const statusToggle = realCheckBox.closest('.status-option');
+        const checkBoxSymbol = statusToggle.querySelector('.check-box');
+        const statusText = statusToggle.querySelector('#status-text');
+
+        if (realCheckBox.checked) {
+            checkBoxSymbol.textContent = '✓';
+            statusText.textContent = 'Completed';
+        } else if (!realCheckBox.checked) {
+            checkBoxSymbol.textContent = '';
+            statusText.textContent = 'Undone';
+        }
+    }
+
+    // This part belongs to the project editor
     if (saveProjectBtn) {
         const projectTitleInput = mainBody.querySelector('#editProjectName').value;
 

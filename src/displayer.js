@@ -196,7 +196,7 @@ export default (function displayer() {
       <label class="status-option" data-action="toggle-status" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">
         <input type="checkbox" id="editStatus">
         <span class="check-box">✓</span>
-        <span>Completed</span>
+        <span id="status-text">Completed</span>
       </label>
     </div>
     <button class="btn-save" data-action="save-todo" data-todo-id="TODO_ID" data-project-id="PROJECT_ID">[ save ]</button>

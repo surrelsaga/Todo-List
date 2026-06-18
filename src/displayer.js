@@ -194,7 +194,7 @@ export default (function displayer() {
     <div class="prop-section">
       <label class="prop-label">Status</label>
       <label class="status-option" data-action="toggle-status" data-todo-id="${toDo.getID()}" data-project-id="${project.getProjectID()}">
-        <input type="checkbox" id="editStatus">
+        <input type="checkbox" id="editStatus" ${toDo.getStatus() === true ? 'checked' : ''}>
         <span class="check-box">${toDo.getStatus() === true ? '✓' : ''}</span>
         <span id="status-text">${toDo.getStatus() === true ? 'Completed' : 'Undone'}</span>
       </label>
@@ -210,7 +210,7 @@ export default (function displayer() {
         const toDoNameDisplay = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
                                            .closest('.project-item')
                                            .querySelector('.todo-list')
-                                           .querySelector(`.todo-item[data-todo-id="${todoID}"`)
+                                           .querySelector(`.todo-item[data-todo-id="${todoID}"]`)
                                            .querySelector('.todo-title');
         toDoNameDisplay.textContent = newName;
     }

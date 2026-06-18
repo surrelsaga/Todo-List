@@ -93,7 +93,7 @@ export default (function displayer() {
                 <div class="todo-item" data-todo-id="${id}" data-project-id="${projectID}">
                     <div class="todo-checkbox">&#10003;</div>
                     <span class="todo-title">${name}</span>
-                    <span class="priority-dot" class=${priority}></span>
+                    <span class="priority-dot ${priority}"></span>
                 </div>
                 `);
             } else if (status === true) {
@@ -101,7 +101,7 @@ export default (function displayer() {
                 <div class="todo-item" data-todo-id=${id} data-project-id=${projectID}>
                     <div class="todo-checkbox done">&#10003;</div>
                     <span class="todo-title done">${name}</span>
-                    <span class="priority-dot" class=${priority}></span>
+                    <span class="priority-dot ${priority}"></span>
                 </div>
                 `);
             }
@@ -205,15 +205,22 @@ export default (function displayer() {
     }
 
     // update the project title display
-    const updateToDoTitle = (projectID, todoID, newName) => {
+    const updateToDoDisplay = (projectID, todoID, newName, newPriority, oldPriority) => {
         // find the correct project header -> walk up to project item -> find the project name display box
-        const toDoNameDisplay = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
+        const toDoDOM = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
                                            .closest('.project-item')
                                            .querySelector('.todo-list')
                                            .querySelector(`.todo-item[data-todo-id="${todoID}"]`)
-                                           .querySelector('.todo-title');
+
+        // update the title
+        const toDoNameDisplay = toDoDOM.querySelector('.todo-title');
         toDoNameDisplay.textContent = newName;
+        // update the priority dot
+        const toDoPriorityDot = toDoDOM.querySelector('.priority-dot');
+        toDoPriorityDot.classList.remove(oldPriority);
+        toDoPriorityDot.classList.add(newPriority);
+        
     }
 
-    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor, updateToDoTitle };
+    return { getExplorerBody, getMainBody, showAddProjectModal, removeAddProjectModal, showAddToDoModal, removeAddToDoModal, displayProject, removeDisplayProject, displayToDo, clearToDo, updateToDoCountInProject, displayProjectEditor, updateProjectTitle, displayTodoEditor, updateToDoDisplay };
 })();

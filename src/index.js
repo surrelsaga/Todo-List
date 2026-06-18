@@ -345,21 +345,22 @@ mainBody.addEventListener('click', (event) => {
         // this checked returns the status of the checkbox (true if checkbox is checked and otherwise)
         const newStatus = mainBody.querySelector('#editStatus').checked;
 
-        // #2: update the todo
+        // #2: redisplay the todo item title + priority dot
+        const oldPriority = todo.getPriority(); // get the old priority to remove the class
+        displayer.updateToDoDisplay(projectID, todoID, newTitle, newPriority, oldPriority);
+
+        // #3: update the todo
         todo.editTitleTo(newTitle);
         todo.editDescTo(newDesc);
         todo.editDueDateTo(newDueDate);
         todo.editPriorityTo(newPriority);
         todo.editStatusTo(newStatus);
 
-        // #3: update the todo 
+        // #4: update the todo 
         // meaning updating the project 
         // meaning updating the projectStorage alr
         // just need to save to localStorage
         storageProcessor.saveToLocalStorage( projectStorage.getProjectList() );
-
-        // #4: redisplay the todo item title
-        displayer.updateToDoTitle(projectID, todoID, newTitle);
 
         // #5: close the todo editor
         mainBody.innerHTML = '';

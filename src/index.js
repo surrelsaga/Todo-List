@@ -23,6 +23,9 @@ rawData.forEach(project => {
     projectStorage.addProject(rebuiltProject);
 });
 
+// redisplay all the projects
+projectStorage.getProjectList().forEach(project => displayer.displayProject(project));
+
 // Create some example projects to verify if data can survive in the localStorage
 
 // // init one project

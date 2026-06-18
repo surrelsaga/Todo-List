@@ -91,7 +91,7 @@ export default (function displayer() {
             if (status === false) {
                 todoDOM.insertAdjacentHTML('beforeend', `
                 <div class="todo-item" data-todo-id="${id}" data-project-id="${projectID}">
-                    <div class="todo-checkbox">&#10003;</div>
+                    <div class="todo-checkbox"></div>
                     <span class="todo-title">${name}</span>
                     <span class="priority-dot ${priority}"></span>
                 </div>
@@ -176,17 +176,17 @@ export default (function displayer() {
       <div class="priority-options">
         <label class="priority-option">
           <input type="radio" name="priority" value="low" ${(toDo.getPriority() === 'low') ? 'checked' : ''}>
-          <span class="radio-box">✓</span>
+          <span class="radio-box">${(toDo.getPriority() === 'low') ? '✓' : ''}</span>
           <span class="priority-label">low</span>
         </label>
         <label class="priority-option">
           <input type="radio" name="priority" value="medium" ${(toDo.getPriority() === 'medium') ? 'checked' : ''}>
-          <span class="radio-box">✓</span>
+          <span class="radio-box">${(toDo.getPriority() === 'medium') ? '✓' : ''}</span>
           <span class="priority-label">medium</span>
         </label>
         <label class="priority-option">
           <input type="radio" name="priority" value="high" ${(toDo.getPriority() === 'high') ? 'checked' : ''}>
-          <span class="radio-box">✓</span>
+          <span class="radio-box">${(toDo.getPriority() === 'high') ? '✓' : ''}</span>
           <span class="priority-label">high</span>
         </label>
       </div>

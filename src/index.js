@@ -349,8 +349,9 @@ mainBody.addEventListener('click', (event) => {
         const newStatus = mainBody.querySelector('#editStatus').checked;
 
         // #2: redisplay the todo item title + priority dot
-        const oldPriority = todo.getPriority(); // get the old priority to remove the class
-        displayer.updateToDoDisplay(projectID, todoID, newTitle, newPriority, oldPriority);
+        const oldPriority = todo.getPriority(); // get the old priority to add class '${priority}' dynamically
+        const oldStatus = todo.getStatus(); // get the old status to add class 'done' dynamically
+        displayer.updateToDoDisplay(projectID, todoID, newTitle, newPriority, oldPriority, newStatus, oldStatus);
 
         // #3: update the todo
         todo.editTitleTo(newTitle);

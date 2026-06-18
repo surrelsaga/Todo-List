@@ -205,7 +205,7 @@ export default (function displayer() {
     }
 
     // update the project title display
-    const updateToDoDisplay = (projectID, todoID, newName, newPriority, oldPriority) => {
+    const updateToDoDisplay = (projectID, todoID, newName, newPriority, oldPriority, newStatus, oldStatus) => {
         // find the correct project header -> walk up to project item -> find the project name display box
         const toDoDOM = document.querySelector(`.project-header[data-project-id="${projectID}"]`)
                                            .closest('.project-item')
@@ -219,6 +219,17 @@ export default (function displayer() {
         const toDoPriorityDot = toDoDOM.querySelector('.priority-dot');
         toDoPriorityDot.classList.remove(oldPriority);
         toDoPriorityDot.classList.add(newPriority);
+        // update the todo status display
+        const toDoCheckBox = toDoDOM.querySelector('.todo-checkbox');
+        if( newStatus === oldStatus ) return;
+        else if ( oldStatus === false ) {
+            toDoCheckBox.classList.add('done');
+            toDoNameDisplay.classList.add('done');
+        }
+        else if ( oldStatus === true ) {
+            toDoCheckBox.classList.remove('done');
+            toDoNameDisplay.classList.remove('done');
+        }
         
     }
 

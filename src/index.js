@@ -278,19 +278,31 @@ mainBody.addEventListener('click', (event) => {
 
     // All elements related to the todo editor
     // what actually get clicks on the checkbox is the input area, not the status-option label
-    const checkBox = event.target.closest('#editStatus');
+    const statusCheckBox = event.target.closest('#editStatus');
+    // checkbox for priority
+    const priorityOption = event.target.closest('.priority-option');
     // save button of todo editor
     const saveToDoBtn = event.target.closest('[data-action="save-todo"]');
 
-    if (checkBox) {
-        const statusToggle = checkBox.closest('.status-option');
+    if (priorityOption) {
+        // whenever a priority checkbox is checked, clear all the span text content
+        const prioritySpan = [...document.querySelectorAll('.radio-box')];
+        prioritySpan.forEach(span => span.textContent = '');
+
+        // target the span of the only priority option that was clciked
+        const targetedSpan = priorityOption.querySelector('.radio-box');
+        targetedSpan.textContent = '✓';
+    }
+
+    if (statusCheckBox) {
+        const statusToggle = statusCheckBox.closest('.status-option');
         const checkBoxSymbol = statusToggle.querySelector('.check-box');
         const statusText = statusToggle.querySelector('#status-text');
 
-        if (checkBox.checked) {
+        if (statusCheckBox.checked) {
             checkBoxSymbol.textContent = '✓';
             statusText.textContent = 'Completed';
-        } else if (!checkBox.checked) {
+        } else if (!statusCheckBox.checked) {
             checkBoxSymbol.textContent = '';
             statusText.textContent = 'Undone';
         }

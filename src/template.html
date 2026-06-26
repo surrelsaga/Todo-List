@@ -21,7 +21,7 @@
       <div class="titlebar-dot green"></div>
     </div>
     <div class="titlebar-name">PIXEL TODO</div>
-    <div class="titlebar-version">v0.1.0</div>
+    <div class="titlebar-version">FirstAndOnlyVersion</div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -57,9 +57,6 @@
       <div class="main-header">
         <!-- YOUR DOM DISPLAYER UPDATES THIS with current path.
              e.g. "Personal / Gym"  or just "Personal" -->
-        <div class="main-breadcrumb" id="breadcrumb">
-          <span>pixel-todo</span>
-        </div>
 
         <!-- YOUR DOM DISPLAYER INJECTS CONTEXTUAL BUTTONS HERE.
              e.g. "+ task" when a project is selected,
@@ -76,27 +73,6 @@
       <div class="main-body" id="mainBody"></div>
     </div>
 
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════
-       STATIC: STATUS BAR
-       The bar itself is static.
-       Dynamic: #statusText, #projectCount, #todoCount.
-  ════════════════════════════════════════════════════════════════ -->
-  <div class="statusbar">
-    <div class="statusbar-item">
-      <div class="statusbar-dot"></div>
-      <!-- YOUR ENTRY MODULE UPDATES THIS with operation feedback.
-           e.g. "project saved", "task deleted", "ready" -->
-      <span id="statusText">ready</span>
-    </div>
-    <div class="statusbar-item" style="margin-left:auto;">
-      <!-- YOUR DOM DISPLAYER UPDATES THESE COUNTS. -->
-      <span id="projectCount">0 projects</span>
-    </div>
-    <div class="statusbar-item">
-      <span id="todoCount">0 tasks</span>
-    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
